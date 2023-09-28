@@ -1,0 +1,27 @@
+{
+    "displayName": "",
+    "name": "",
+    "version": "1.0.0",
+    "license": "MIT",
+    "scripts": {
+        "====[ Build ]====": "",
+        "dev": "npx next dev",
+        "start": "npx next start",
+        "build": "npm run clean && npx next build",
+        "lint": "npx next lint",
+        "====[ Misc ]====": "",
+        "reinstall": "npm run purge && npm i",
+        "update": "npx npm-check-updates -u && npm run reinstall",
+        "clean": "rm -rf .next/",
+        "purge": "rm -rf .next/ node_modules/ package-lock.json"
+    },
+    "dependencies": {
+        "next": "^13.4.19"
+    },
+    "devDependencies": {
+        "@types/node": "^20.5.9",
+        "eslint": "^8.48.0",
+        "eslint-config-next": "^13.4.19",
+        "eslint-plugin-security": "^1.7.1"
+    }
+}
