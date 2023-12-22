@@ -27,6 +27,8 @@
 			"warn",
 			{ "additionalHooks": "(useFetch|useLoadingCallback)" }
 		],
-		"security/detect-object-injection": "off"
+		"security/detect-object-injection": "off",
+		"@next/next/no-img-element": "off",
+		"jsx-a11y/alt-text": "off"
 	}
 }

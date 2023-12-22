@@ -3,7 +3,6 @@ export { assertValidLogin } from "./assertValidLogin";
 export { createApiHandler } from "./createApiHandler";
 export { generateTotpUrl } from "./generateTotpUrl";
 export { getEnv } from "./getEnv";
-export { ipLookup } from "./ipLookup";
 export { respondError } from "./respondError";
 export { respondGraphError } from "./respondGraphError";
 export { respondJson } from "./respondJson";
@@ -13,3 +12,4 @@ export { safeIsFileAccessible } from "./safeIsFileAccessible";
 export { sanitizePath } from "./sanitizePath";
 export { scanDirectory } from "./scanDirectory";
 export { validateTOTP } from "./validateTOTP";
+

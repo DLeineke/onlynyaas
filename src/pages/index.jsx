@@ -1,138 +1,62 @@
-import AlignScreenMiddle from "@/components/AlignScreenMiddle";
-import {
-	Avatar,
-	Card,
-	CardActionArea,
-	CardHeader,
-	Typography,
-} from "@mui/material";
-import React from "react";
+import CardGachi from "@/components/CardGachi";
+import Feeter from "@/components/Feeter";
+import { useSnackbar } from "@/components/Snackbar";
+import { CircularProgress } from "@mui/material";
+import React, { useCallback, useEffect, useState } from "react";
 
-const styles = {
-	navigationCard: {
-		display: `inline-block`,
-		margin: `4px`,
-		width: `260px`,
-	},
-};
+// General idea: The website is a whitelist uploading library. Upload via Nyaa bot and then anonomous users can upvote/downvote the things uploaded
+// Gifs/gachi/sounds/clickable interaction maybe
+
+//TODO: Componentize cards, make clickable,
+// Get card you can click on and they play music. Queue up music and play it
 
 export default function PageIndex() {
-	// Invert if dark theme
-	const filter = `invert(1)`;
+	const { successSnack, errorSnack } = useSnackbar();
+
+	const [data, setData] = useState([]);
+	const [loading, setLoading] = useState(false);
+	const [currentlyPlaying, setCurrentlyPlaying] = useState(null);
+
+	const getGachi = useCallback(async () => {
+		setLoading(true);
+		const res = await fetch(`/api/getGachi`);
+		if (res.status !== 200) {
+			setLoading(false);
+			errorSnack(`Failed Gachi`);
+			return;
+		}
+		const json = await res.json();
+		setData(json);
+		setLoading(false);
+		successSnack(`Gachi loaded`);
+	}, [errorSnack, successSnack]);
+
+	useEffect(() => {
+		getGachi();
+	}, [getGachi]);
+
+	const handlePlay = (musicUrl) => {
+		setCurrentlyPlaying(musicUrl);
+	};
 
 	return (
 		<>
-			<title>Index | Nyaarium</title>
-
-			<AlignScreenMiddle>
-				<Card sx={styles.navigationCard}>
-					<CardHeader
-						avatar={
-							<Avatar
-								src="files/logos/discord.png"
-								sx={{
-									borderRadius: "0",
-									filter,
-								}}
-							/>
-						}
-						title={
-							<Typography variant="h5">Nyaarium#0001</Typography>
-						}
-					/>
-				</Card>
-
-				<Card sx={styles.navigationCard}>
-					<CardActionArea href="https://steam.nyaarium.com">
-						<CardHeader
-							avatar={
-								<Avatar
-									src="files/logos/steam.png"
-									sx={{
-										borderRadius: "0",
-										filter,
-									}}
-								/>
-							}
-							title={<Typography variant="h5">Steam</Typography>}
-						/>
-					</CardActionArea>
-				</Card>
-
-				<Card sx={styles.navigationCard}>
-					<CardActionArea href="https://chilloutvr.nyaarium.com">
-						<CardHeader
-							avatar={
-								<Avatar
-									src="files/logos/chilloutvr.png"
-									sx={{
-										borderRadius: "0",
-										filter,
-									}}
-								/>
-							}
-							title={
-								<Typography variant="h5">ChilloutVR</Typography>
-							}
-						/>
-					</CardActionArea>
-				</Card>
-
-				<Card sx={styles.navigationCard}>
-					<CardActionArea href="https://twitch.nyaarium.com">
-						<CardHeader
-							avatar={
-								<Avatar
-									src="files/logos/twitch.png"
-									sx={{
-										borderRadius: "0",
-										filter,
-									}}
-								/>
-							}
-							title={<Typography variant="h5">Twitch</Typography>}
-						/>
-					</CardActionArea>
-				</Card>
-
-				<Card sx={styles.navigationCard}>
-					<CardActionArea href="https://youtube.nyaarium.com">
-						<CardHeader
-							avatar={
-								<Avatar
-									src="files/logos/youtube.png"
-									sx={{
-										borderRadius: "0",
-										filter,
-									}}
-								/>
-							}
-							title={
-								<Typography variant="h5">Youtube</Typography>
-							}
-						/>
-					</CardActionArea>
-				</Card>
-
-				<Card sx={styles.navigationCard}>
-					<CardActionArea href="https://twitter.nyaarium.com">
-						<CardHeader
-							avatar={
-								<Avatar
-									src="files/logos/twitter.png"
-									sx={{
-										borderRadius: "0",
-										filter,
-									}}
-								/>
-							}
-							title={
-								<Typography variant="h5">Twitter</Typography>
-							}
-						/>
-					</CardActionArea>
-				</Card>
-			</AlignScreenMiddle>
+			{loading && <CircularProgress />}
+			{data.map((item, i) => (
+				<CardGachi
+					key={i}
+					title={item.title}
+					description={item.description}
+					thumbnail={item.thumbnail}
+					color={item.color}
+					musicUrl={item.musicUrl}
+					onPlay={handlePlay}
+				/>
+			))}
+			<Feeter
+				currentlyPlaying={currentlyPlaying}
+				setCurrentlyPlaying={setCurrentlyPlaying}
+			/>
 		</>
 	);
 }

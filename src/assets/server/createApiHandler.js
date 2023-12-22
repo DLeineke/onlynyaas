@@ -1,31 +1,31 @@
 import { UnauthorizedError } from "@/assets/common/ErrorTypes";
-import { createPromise } from "@/assets/common/createPromise";
-import { getEnv } from "@/assets/server/getEnv";
+// import { createPromise } from "@/assets/common/createPromise";
+// import { getEnv } from "@/assets/server/getEnv";
 import { respondError } from "@/assets/server/respondError";
-import { createPostgresUrl } from "@/typeorm/PostgresDataSource";
-import pgSession from "connect-pg-simple";
-import session from "express-session";
+// import { createPostgresUrl } from "@/typeorm/PostgresDataSource";
+// import pgSession from "connect-pg-simple";
+// import session from "express-session";
 import JSON5 from "json5";
 import _ from "lodash";
 
-const DEV = process.env.NODE_ENV !== "production";
+// const DEV = process.env.NODE_ENV !== "production";
 
-const pgStore = pgSession(session);
+// const pgStore = pgSession(session);
 
-const handlerSession = session({
-	secret: getEnv("SESSION_SECRET"),
-	resave: false,
-	saveUninitialized: false,
-	store: new pgStore({
-		conString: createPostgresUrl(),
-	}),
-	cookie: {
-		maxAge: 24 * 60 * 60 * 1000,
-		expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
-		secure: !DEV,
-		sameSite: !DEV ? "strict" : "lax",
-	},
-});
+// const handlerSession = session({
+// 	secret: getEnv("SESSION_SECRET"),
+// 	resave: false,
+// 	saveUninitialized: false,
+// 	store: new pgStore({
+// 		conString: createPostgresUrl(),
+// 	}),
+// 	cookie: {
+// 		maxAge: 24 * 60 * 60 * 1000,
+// 		expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+// 		secure: !DEV,
+// 		sameSite: !DEV ? "strict" : "lax",
+// 	},
+// });
 
 /**
  * Creates an API handler function that can be used with Express.js.
@@ -94,24 +94,6 @@ export function createApiHandler({
 	}
 
 	return async function apiHandler(req, res) {
-		// TODO: Dockerfile grab this list:
-		//   npm i -D ip6
-		// https://www.cloudflare.com/ips-v4
-		// https://www.cloudflare.com/ips-v6
-
-		const host = req.headers.host;
-		const cfConnectingIp = req.headers["cf-connecting-ip"];
-		const remoteIp = req.connection.remoteAddress;
-		if (cfConnectingIp) {
-			console.log(
-				` ℹ️ CloudFlare connection  ${cfConnectingIp}  ( ${remoteIp} ) intended for ${host}`,
-			);
-		} else {
-			console.log(
-				` ℹ️ Direct connection  ${remoteIp}  intended for ${host}`,
-			);
-		}
-
 		let timeStart;
 		let logLabel = label;
 		if (log) {
@@ -134,9 +116,9 @@ export function createApiHandler({
 		try {
 			// Provide Express Session on req.session
 			// With `saveUninitialized: false`, no cookies will be created until `req.session` is used.
-			const pr = createPromise();
-			handlerSession(req, res, () => pr.resolve());
-			await pr.promise;
+			// const pr = createPromise();
+			// handlerSession(req, res, () => pr.resolve());
+			// await pr.promise;
 
 			// Call passed in handler
 			if (useSession) {

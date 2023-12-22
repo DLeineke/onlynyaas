@@ -52,7 +52,7 @@ async function headers() {
 							"https://cdn.jsdelivr.net/npm/react-image-gallery/styles/css/image-gallery.css",
 						],
 						"font-src": ["'self'", "data:", "blob:"],
-						"img-src": ["'self'", "data:", "blob:"],
+						"img-src": ["'self'", "data:", "blob:", "media.discordapp.net"],
 						"media-src": ["'self'", "data:", "blob:"],
 						"worker-src": ["'self'"],
 						"form-action": ["'self'"],
