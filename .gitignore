@@ -5,12 +5,12 @@
 _test/
 /.env*
 /.swc/
-/.git*
 /.vscode-server/
 /.vscode/
 /compose*.yml
 /coverage/
 /debug.log
+/next-env.d.ts
 /node_modules/
 /volumes/
 
