@@ -49,10 +49,10 @@ async function headers() {
 						"style-src": [
 							"'self'",
 							"'unsafe-inline'", // Is this needed?
-							"https://cdn.jsdelivr.net/npm/react-image-gallery/styles/css/image-gallery.css",
+							// "https://cdn.jsdelivr.net/npm/react-image-gallery/styles/css/image-gallery.css",
 						],
 						"font-src": ["'self'", "data:", "blob:"],
-						"img-src": ["'self'", "data:", "blob:", "media.discordapp.net"],
+						"img-src": ["'self'", "data:", "blob:"],
 						"media-src": ["'self'", "data:", "blob:"],
 						"worker-src": ["'self'"],
 						"form-action": ["'self'"],
