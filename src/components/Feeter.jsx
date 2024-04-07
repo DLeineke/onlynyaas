@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useCallback } from "react";
 
 const styles = {
 	FootThing: {
@@ -14,9 +14,9 @@ const styles = {
 };
 
 export default function Footer({ currentlyPlaying, setCurrentlyPlaying }) {
-	const handleAudioStop = () => {
+	const handleAudioStop = useCallback(() => {
 		setCurrentlyPlaying(null);
-	};
+	}, []);
 
 	return (
 		<div style={styles.FootThing}>

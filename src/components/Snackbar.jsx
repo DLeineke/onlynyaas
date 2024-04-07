@@ -5,6 +5,7 @@ import React, {
 	createContext,
 	useCallback,
 	useContext,
+	useMemo,
 	useReducer,
 } from "react";
 import { v4 as uuid } from "uuid";
@@ -157,18 +158,20 @@ export function SnackbarProvider({ children }) {
 		[appendSnack],
 	);
 
+	const value = useMemo(() => {
+		return {
+			// Available callbacks
+			errorSnack,
+			infoSnack,
+			successSnack,
+			warningSnack,
+		};
+	}, [errorSnack, infoSnack, successSnack, warningSnack]);
+
 	const currentSnackConfig = state.snackConfigQueue?.[0];
 
 	return (
-		<SnackbarContext.Provider
-			value={{
-				// Available callbacks
-				errorSnack,
-				infoSnack,
-				successSnack,
-				warningSnack,
-			}}
-		>
+		<SnackbarContext.Provider value={value}>
 			<Snackbar
 				open={!state.closingTransition && !!currentSnackConfig}
 				autoHideDuration={currentSnackConfig?.timeout || 8000}

@@ -11,7 +11,13 @@ import {
 	CircularProgress,
 } from "@mui/material";
 import PropTypes from "prop-types";
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+	createContext,
+	useContext,
+	useEffect,
+	useMemo,
+	useState,
+} from "react";
 
 const SessionContext = createContext();
 
@@ -36,6 +42,10 @@ export default function Session({ children }) {
 		[],
 	);
 
+	const value = useMemo(() => {
+		return { session: sessionData, checkSession };
+	}, [sessionData]);
+
 	// Once
 	useEffect(() => {
 		checkSession();
@@ -46,7 +56,7 @@ export default function Session({ children }) {
 	}
 
 	return (
-		<SessionContext.Provider value={{ session: sessionData, checkSession }}>
+		<SessionContext.Provider value={value}>
 			{sessionData?.valid ? (
 				children
 			) : (

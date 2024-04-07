@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useCallback, useMemo } from "react";
 
 const styles = {
 	squareThing: {
@@ -26,19 +26,20 @@ export default function CardGachi({
 	musicUrl,
 	onPlay,
 }) {
-	const handleClick = () => {
+	const style = useMemo(() => {
+		return {
+			...styles.squareThing,
+			backgroundColor: color,
+		};
+	}, [color]);
+
+	const handleClick = useCallback((event) => {
 		console.log("Card clicked: ", title);
 		onPlay(musicUrl);
-	};
+	}, []);
 
 	return (
-		<div
-			onClick={handleClick}
-			style={{
-				...styles.squareThing,
-				backgroundColor: color,
-			}}
-		>
+		<div onClick={handleClick} style={style}>
 			<h1>{title}</h1>
 			<p>{description}</p>
 			<img style={styles.thumbnail} src={thumbnail} />
