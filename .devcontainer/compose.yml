@@ -1,0 +1,37 @@
+services:
+  dev:
+    # depends_on:
+    #   - example-database
+    tty: true
+    hostname: devcontainer
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      # Workspace
+      - ..:/workspaces/onlynyaas:cached
+      # Additional custom environments and scripts
+      - ~/.env:/home/vscode/.env:ro
+      - ~/scripts:/home/vscode/scripts:ro
+
+  # example-database:
+  #   tty: true
+  #   build:
+  #     context: ..
+  #     dockerfile: .devcontainer/Dockerfile.database
+  #   ports:
+  #     # Service ports
+  #     - "1234:1234"
+  #   volumes:
+  #     # Data
+  #     - ../volumes/db:/var/lib/database/data
+  #   environment:
+  #     DATABASE_HOST: localhost
+  #     DATABASE_DB: database
+  #     DATABASE_USER: user
+  #     DATABASE_PASSWORD: 1234
+  #     LANGUAGE: en_US.UTF-8
+  #     LC_ALL: C
+  #     LANG: en_US.UTF-8
